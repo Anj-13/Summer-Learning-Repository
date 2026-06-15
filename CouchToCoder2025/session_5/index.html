@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<!-- html5 too get the classic structure -->
+<!-- It is common to have more than one file, 
+let's  say couple of html file for each page such as contact us page -->
+<!-- shortcut html:5 to get basic structure-->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InstantGramEn</title>
+    <!-- this to link up to css-->
+    <link rel="stylesheet" href="style.css">
+    <!-- font from google font and the code is also from google font  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Science+Gothic:wght@100..900&display=swap" rel="stylesheet">
+    <!-- this is to link up to JS-->
+    <script type="module" src="app.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>InstantGramEn</h1>
+        <div>
+            <a href="">Recipe</a> <!-- anchor tag, where we can click it to go another page -->
+            <a href="">About Us</a>
+            <a href="">Contact</a>
+        </div>
+    </header>
+
+    <main>
+        <h2>My Favourite Recipes</h2>
+        <form>
+            <p>Add new recipe</p>
+            <div class = "form-row">
+                <label for="name">Name: </label>
+                <input type="text" name="name" id="name">
+            </div>
+            <br>
+            <div class = "form-row">
+                <label for="cuisine">Cuisine: </label>
+                <input type="text" name="cuisine" id="cuisine">
+            </div>
+            <br>
+            <div class = "form-row">
+                <label for="time">Time: </label>
+                <input type="text" name="time" id="time">
+            </div>
+            <br>
+            <div class = "form-row">
+                <label for="ingredients">Ingredients (put new ingredients on new line): </label>
+                <textarea name="ingredients" id="ingredients"></textarea>
+            </div>
+            <br>
+            <div class = "form-row">
+                <label for="steps">Steps (each step on a new line):</label>
+                <textarea name="steps" id="steps"></textarea>
+            </div>
+            <br>
+            <input type="submit" value="add new recipe">
+        </form>
+        <ul id="recipe-list">
+
+        </ul> <!--ul is unorder list while ol is ordered -->
+    </main>
+    <footer>
+        <a href="">Terms of use</a>
+    </footer>
+</body>
+
+</html>

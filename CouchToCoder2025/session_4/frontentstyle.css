@@ -1,0 +1,27 @@
+body {
+    font-family: "Open Sans", sans-serif;
+    margin: 0;
+    background-color: #F8F8F8;
+    color: #333333;
+}
+
+header {
+    background-color: #6A9C89;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    /* Ensure the header stays above other content by putting it 
+forward in the 3rd dimension*/
+}
+
+footer {
+    background-color: #6A9C89;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin-top: auto;
+    /* Push the footer to the bottom */
+}

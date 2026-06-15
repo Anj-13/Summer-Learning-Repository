@@ -1,0 +1,98 @@
+/* we need to target where should style go
+that's selector,
+therefore, we have to name{ }*/
+header {
+    background-color: navy;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    /* Ensure the header stays above other content by putting it 
+forward in the 3rd dimension*/
+    display: flex;
+    justify-content: space-around;
+}
+
+body {
+    font-family: "Open Sans", sans-serif;
+    margin: 0;
+    background-color: lightblue;
+    color: black;
+}
+
+footer {
+    background-color: navy;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin-top: auto;
+    /* Push the footer to the bottom */
+}
+
+h1 {
+    font-family: "Science Gothic";
+}
+
+/* CSS Advanced header lesson */
+
+header a {
+    /* any header's anchor tag would be targeted */
+    text-decoration: none;
+    color: lightblue;
+    padding: 12px;
+    /* top, right, bottom, left for the box's setting */
+    align-items: center;
+    display: flex;
+    font-size: 2vh
+}
+
+header a:hover {
+    /*this is a pusedo class, it's like selector:pseudo-class-name*/
+    text-decoration: underline;
+    color: white;
+}
+
+header div{
+    display: flex;
+}
+
+footer a {
+    text-decoration: none;
+    color: lightblue;
+    padding: 12px;
+    /* top, right, bottom, left for the box's setting */
+    align-items: center;
+    font-size: 2vh;
+}
+
+footer a:hover {
+    text-decoration: underline;
+    color: white;
+}
+
+/* CSS Advanced form and making it nice shape*/
+form{
+    text-align: center;
+    width: 33%;
+    margin: 48px; 
+}
+
+.form-row{
+    display: flex;
+    justify-content: space-between;
+}
+
+h2 {
+    margin: 24px;
+}
+
+/* CSS Advanced media query */
+
+@media screen and (max-width: 600px) {
+    form {
+        width: 80%;
+        margin: 24px;
+    }
+}
