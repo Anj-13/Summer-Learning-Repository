@@ -1,0 +1,23 @@
+# base image
+FROM node:24
+
+# goes to the app directory like cd terminal command
+WORKDIR /app
+
+# copy package.json and package-lock.json
+COPY package*.json ./
+
+#install app dependencies
+RUN npm install
+
+#copy the rest of the app
+COPY . .
+
+#port enviroment variable
+ENV PORT=9000
+
+#expose the port so the computer can access it
+EXPOSE 9000
+
+#Run the app
+CMD ["node", "src/Index.js"]
