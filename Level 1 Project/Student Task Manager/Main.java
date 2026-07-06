@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Main {
@@ -191,6 +192,9 @@ public class Main {
                 return Integer.parseInt(scan.nextLine());
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a number.");
+            } catch (NoSuchElementException e) {
+                System.out.println("No input available. Exiting.");
+                System.exit(1);
             }
         }
     }
@@ -198,11 +202,16 @@ public class Main {
     public static String getStringInput(String prompt) {
         while (true) {
             System.out.print(prompt);
-            String input = scan.nextLine().trim();
-            if (!input.isEmpty()) {
-                return input;
+            try {
+                String input = scan.nextLine().trim();
+                if (!input.isEmpty()) {
+                    return input;
+                }
+                System.out.println("Input cannot be empty.");
+            } catch (NoSuchElementException e) {
+                System.out.println("No input available. Exiting.");
+                System.exit(1);
             }
-            System.out.println("Input cannot be empty.");
         }
     }
 }
