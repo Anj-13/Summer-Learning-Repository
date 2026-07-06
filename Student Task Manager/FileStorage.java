@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.nio.file.Files;
@@ -32,7 +33,7 @@ public class FileStorage {
             }
             writer.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Error saving tasks: " + e.getMessage());
         }
 
         Path temp = Paths.get(filename + "_temp.txt");
@@ -41,7 +42,7 @@ public class FileStorage {
         try {
             Files.move(temp, target, StandardCopyOption.REPLACE_EXISTING);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Error moving temp file: " + e.getMessage());
         }
     }
 
@@ -66,8 +67,10 @@ public class FileStorage {
                 }
             }
             reader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Save file not found.");
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Error loading tasks: " + e.getMessage());
         }
         return load;
     }
