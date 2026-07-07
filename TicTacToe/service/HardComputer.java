@@ -1,6 +1,6 @@
-/**
- * HardComputer.java - Uses Minimax algorithm to be unbeatable
- */
+package service;
+
+import model.Board;
 import java.util.Scanner;
 
 public class HardComputer extends ComputerPlayer {
@@ -14,29 +14,23 @@ public class HardComputer extends ComputerPlayer {
         int[][] emptyCells = getEmptyCells(board);
         
         if (emptyCells.length == 0) {
-            return null; // No moves available
+            return null;
         }
         
-        // If only one move, take it
         if (emptyCells.length == 1) {
             return emptyCells[0];
         }
         
-        // Use Minimax to find the best move
         int[] bestMove = null;
         int bestScore = Integer.MIN_VALUE;
         
         for (int[] cell : emptyCells) {
-            // Try this move
             board.makeMove(cell[0], cell[1], symbol);
             
-            // Calculate score for this move
             int score = minimax(board, 0, false);
             
-            // Undo the move
             board.makeMove(cell[0], cell[1], ' ');
             
-            // Update best move
             if (score > bestScore) {
                 bestScore = score;
                 bestMove = cell;
@@ -46,22 +40,14 @@ public class HardComputer extends ComputerPlayer {
         return bestMove;
     }
     
-    /**
-     * Minimax algorithm for Tic Tac Toe
-     * @param board The current board
-     * @param depth Current depth in the tree
-     * @param isMaximizing True if it's the computer's turn, false for opponent
-     * @return Score of the board position
-     */
     private int minimax(Board board, int depth, boolean isMaximizing) {
         char opponentSymbol = (symbol == 'X') ? 'O' : 'X';
         
-        // Check terminal states
         if (checkWin(board, symbol)) {
-            return 10 - depth; // Prefer quicker wins
+            return 10 - depth;
         }
         if (checkWin(board, opponentSymbol)) {
-            return depth - 10; // Prefer slower losses
+            return depth - 10;
         }
         if (board.isFull()) {
             return 0;

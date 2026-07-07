@@ -1,3 +1,6 @@
+package service;
+
+import model.Board;
 import java.util.Scanner;
 
 public class EasyComputer extends ComputerPlayer {
@@ -11,7 +14,7 @@ public class EasyComputer extends ComputerPlayer {
         int[][] emptyCells = getEmptyCells(board);
         
         if (emptyCells.length == 0) {
-            return null; // No moves available
+            return null;
         }
         
         int randomIndex = r.nextInt(emptyCells.length);

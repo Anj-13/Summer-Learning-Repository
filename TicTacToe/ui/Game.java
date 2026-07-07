@@ -1,3 +1,8 @@
+package ui;
+
+import model.Board;
+import model.Player;
+import service.PlayerFactory;
 import java.util.Scanner;
 
 public class Game {
@@ -19,7 +24,6 @@ public class Game {
         System.out.println("===== TIC TAC TOE =====");
         System.out.println("Welcome! Let's set up the game.\n");
         
-        // Player 1 (X)
         System.out.println("=== Player 1 (X) ===");
         System.out.print("Enter name for Player 1 (or press Enter for default): ");
         String name1 = scn.nextLine().trim();
@@ -27,7 +31,6 @@ public class Game {
         int type1 = PlayerFactory.choosePlayerType(scn, 1);
         player1 = PlayerFactory.createPlayer('X', type1, name1);
         
-        // Player 2 (O)
         System.out.println("\n=== Player 2 (O) ===");
         System.out.print("Enter name for Player 2 (or press Enter for default): ");
         String name2 = scn.nextLine().trim();
@@ -35,7 +38,6 @@ public class Game {
         int type2 = PlayerFactory.choosePlayerType(scn, 2);
         player2 = PlayerFactory.createPlayer('O', type2, name2);
         
-        // Display match info
         System.out.println("\n=== Match Setup ===");
         System.out.println(player1 + " vs " + player2);
         System.out.println("Player X goes first!\n");
@@ -66,7 +68,6 @@ public class Game {
                 continue;
             }
             
-            // Check win/draw
             if (checkWin()) {
                 board.printBoard();
                 System.out.println("\n " + currentPlayer + " WINS!");
@@ -84,7 +85,6 @@ public class Game {
                     resetGame();
                 }
             } else {
-                // Switch players
                 currentPlayer = (currentPlayer == player1) ? player2 : player1;
             }
         }
@@ -95,7 +95,6 @@ public class Game {
 
     private boolean checkWin() {
         char symbol = currentPlayer.getSymbol();
-        // Straight
         for (int row = 0; row < 3; row++) {
             if (board.getCell(row, 0) == symbol &&
                 board.getCell(row, 1) == symbol &&
@@ -111,7 +110,6 @@ public class Game {
             }
         }
 
-        // diagonals
         if (board.getCell(0, 0) == symbol &&
             board.getCell(1, 1) == symbol &&
             board.getCell(2, 2) == symbol) {

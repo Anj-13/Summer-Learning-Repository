@@ -1,3 +1,7 @@
+package service;
+
+import model.Player;
+import ui.HumanPlayer;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 

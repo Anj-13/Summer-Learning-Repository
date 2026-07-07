@@ -1,3 +1,7 @@
+package ui;
+
+import model.Board;
+import model.Player;
 import java.util.Scanner;
 
 public class HumanPlayer extends Player {

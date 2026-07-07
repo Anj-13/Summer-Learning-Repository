@@ -1,3 +1,7 @@
+package service;
+
+import model.Board;
+import model.Player;
 import java.util.Random;
 
 public abstract class ComputerPlayer extends Player{
@@ -15,7 +19,6 @@ public abstract class ComputerPlayer extends Player{
                     board.makeMove(row, col, symbol);
                     
                     boolean wins = checkWin(board, symbol);
-                    // Undo the move
                     board.makeMove(row, col, ' ');
                     
                     if (wins) {
@@ -27,7 +30,6 @@ public abstract class ComputerPlayer extends Player{
         return null;
     }
     protected boolean checkWin(Board board, char symbol) {
-        // Check straight
         for (int row = 0; row < 3; row++) {
             if (board.getCell(row, 0) == symbol &&
                 board.getCell(row, 1) == symbol &&
@@ -44,7 +46,6 @@ public abstract class ComputerPlayer extends Player{
             }
         }
         
-        // Check diagonals
         if (board.getCell(0, 0) == symbol &&
             board.getCell(1, 1) == symbol &&
             board.getCell(2, 2) == symbol) {
