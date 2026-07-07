@@ -21,12 +21,15 @@ public class FileStorage {
 
     public boolean saveContacts(List<Contact> contacts) {
         try {
-              File file = new File(filename);
-        file.getParentFile().mkdirs();
-        
+            File file = new File(filename);
+            file.getParentFile().mkdirs();
+
             BufferedWriter w = new BufferedWriter(new FileWriter(filename + "_temp.txt"));
             for (Contact a : contacts) {
-                w.write(a.getId() + space + a.getName() + space + a.getPhone() + space + a.getEmail());
+                w.write(a.getId() + space
+                + a.getName() + space
+                + a.getPhone() + space 
+                + a.getEmail());
                 w.newLine();
             }
 
@@ -41,7 +44,7 @@ public class FileStorage {
 
         try {
             Files.move(temp, target, StandardCopyOption.REPLACE_EXISTING);
-        return true;
+            return true;
         } catch (Exception e) {
             System.out.println("Error moving temp file: " + e.getMessage());
             return false;

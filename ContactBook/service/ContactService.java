@@ -74,7 +74,6 @@ public class ContactService {
 
         if (deleteContact != null) {
             contacts.remove(deleteContact);
-
             return true;
         }
 
