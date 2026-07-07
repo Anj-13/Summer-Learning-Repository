@@ -1,6 +1,8 @@
 import java.util.Scanner;
+import service.Calculator;
+import storage.CalculationHistory;
 
-public class Main {
+public class main {
     private static Calculator calculator;
     private static CalculationHistory history;
     private static Scanner scan;

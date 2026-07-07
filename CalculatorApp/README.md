@@ -53,12 +53,12 @@ Each line is a formatted entry string. The file is loaded on startup and saved o
 
 ## Project Structure
 
-| File                   | Purpose                                              |
-|------------------------|------------------------------------------------------|
-| `Calculator.java`      | Core arithmetic and advanced math methods            |
-| `CalculationHistory.java` | In-memory history list with file I/O persistence  |
-| `Main.java`            | Menu loop, user input, operation routing, history UI |
-| `history.txt`          | Persistent storage for calculation history           |
+| File                              | Purpose                                              |
+|-----------------------------------|------------------------------------------------------|
+| `service/Calculator.java`         | Core arithmetic and advanced math methods            |
+| `storage/CalculationHistory.java` | In-memory history list with file I/O persistence     |
+| `main.java`                       | Menu loop, user input, operation routing, history UI |
+| `history.txt`                     | Persistent storage for calculation history           |
 
 ## How to Run
 
@@ -66,11 +66,11 @@ Each line is a formatted entry string. The file is loaded on startup and saved o
 
 1. Compile all source files:
    ```
-   javac Calculator.java CalculationHistory.java Main.java
+   javac -d . service\Calculator.java storage\CalculationHistory.java main.java
    ```
 2. Run the application:
    ```
-   java Main
+   java main
    ```
 
 ## Edge Cases Handled
@@ -102,5 +102,11 @@ Each line is a formatted entry string. The file is loaded on startup and saved o
 ### [2026-07-06 00:00]
 
 - **Done:** Created calculator methods, menu system, user input handling, divide-by-zero check, advanced operations, history management, history persistence to `history.txt`, input validation, clear-history confirmation, and edge case handling for negative square root, negative factorial, and undefined tangent angles.
+- **In progress:** —
+- **Left:** —
+
+### [2026-07-07 14:57]
+
+- **Done:** Restructured project into `service/` and `storage/` packages; moved `Calculator.java` → `service/Calculator.java` with `package service;`, moved `CalculationHistory.java` → `storage/CalculationHistory.java` with `package storage;`; renamed `Main.java` → `main.java`, updated imports and class name; removed `Basic Plan.md`; updated `README.md` with new structure and compile/run instructions.
 - **In progress:** —
 - **Left:** —
