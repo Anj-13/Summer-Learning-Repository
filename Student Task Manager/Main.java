@@ -2,8 +2,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import model.Task;
+import service.TaskManager;
+import storage.FileStorage;
 
-public class Main {
+public class main {
     private static TaskManager TM;
     private static FileStorage FS;
     private static Scanner scan;

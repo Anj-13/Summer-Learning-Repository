@@ -1,8 +1,11 @@
+package service;
+
+import model.Task;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class TaskManager {
-    ArrayList<Task> tasks = new ArrayList<>();
+    public ArrayList<Task> tasks = new ArrayList<>();
     private int nextId;
 
     public TaskManager() {

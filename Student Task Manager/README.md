@@ -58,20 +58,19 @@ The file is written atomically using a temporary file and `Files.move()` to prev
 
 ## Project Structure
 
-| File             | Purpose                                          |
-|------------------|--------------------------------------------------|
-| `Task.java`      | Defines the Task data structure and PriorityOption enum |
-| `TaskManager.java` | Manages task operations (add, delete, complete, filter) |
-| `FileStorage.java` | Handles reading and writing tasks to file         |
-| `Main.java`      | Contains the main loop, menu, and user interface  |
-| `Basic Plan.md`  | Original project specification and planning doc   |
+| File                          | Purpose                                          |
+|-------------------------------|--------------------------------------------------|
+| `model/Task.java`             | Defines the Task data structure and PriorityOption enum |
+| `service/TaskManager.java`    | Manages task operations (add, delete, complete, filter) |
+| `storage/FileStorage.java`    | Handles reading and writing tasks to file         |
+| `main.java`                   | Contains the main loop, menu, and user interface  |
 
 ## How to Run
 
 1. Ensure you have **Java 8 or higher** installed
 2. Open a terminal in the project directory
-3. Compile: `javac *.java`
-4. Run: `java Main`
+3. Compile: `javac -d . model\Task.java service\TaskManager.java storage\FileStorage.java main.java`
+4. Run: `java main`
 
 ## Edge Cases Handled
 
@@ -147,3 +146,19 @@ The file is written atomically using a temporary file and `Files.move()` to prev
 
 **Left:**
 - (Optional) .jar packaging
+
+---
+
+### [2026-07-07 15:01]
+
+**Done:**
+- Restructured project into `model/`, `service/`, `storage/` packages: moved `Task.java` → `model/Task.java` with `package model;`, `TaskManager.java` → `service/TaskManager.java` with `package service;`, `FileStorage.java` → `storage/FileStorage.java` with `package storage;`
+- Renamed `Main.java` → `main.java`, updated class name and added imports for packaged classes
+- Removed `Basic Plan.md`
+- Updated `README.md` project structure, compile/run commands, and this log entry
+
+**In progress:**
+- —
+
+**Left:**
+- —
