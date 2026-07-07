@@ -1,4 +1,6 @@
+*.txt
 
+*.md
 
 !README.md
 !ReadMe.md
