@@ -20,6 +20,30 @@ public class LibraryService {
         this.nextRecordId = 1;
     }
 
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public List<BorrowRecord> getRecords() {
+        return borrowRecords;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
+
+    public void setRecords(List<BorrowRecord> records) {
+        this.borrowRecords = records;
+    }
+
+    public void setNextBookId(int nextBookId) {
+        this.nextBookId = nextBookId;
+    }
+
+    public void setNextRecordId(int nextRecordId) {
+        this.nextRecordId = nextRecordId;
+    }
+
     public boolean addBook(String title, String author) {
         int id = generateBookId();
         Book newBook = new Book(id, title, author, true);
@@ -110,27 +134,4 @@ public class LibraryService {
         return currentRecordId;
     }
 
-    public List<Book> getBooks() {
-        return books;
-    }
-
-    public List<BorrowRecord> getRecords() {
-        return borrowRecords;
-    }
-
-    public void setBooks(List<Book> books) {
-        this.books = books;
-    }
-
-    public void setRecords(List<BorrowRecord> records) {
-        this.borrowRecords = records;
-    }
-
-    public void setNextBookId(int nextBookId) {
-        this.nextBookId = nextBookId;
-    }
-
-    public void setNextRecordId(int nextRecordId) {
-        this.nextRecordId = nextRecordId;
-    }
 }
