@@ -1,0 +1,20 @@
+*.txt
+
+*.md
+
+.vscode
+
+.vscode/
+
+!README.md
+!ReadMe.md
+!readme.md
+
+# Also keep any README.md in subfolders
+!*/README.md
+!*/ReadMe.md
+
+# Other ignores you might have...
+node_modules/
+__pycache__/
+*.pyc
