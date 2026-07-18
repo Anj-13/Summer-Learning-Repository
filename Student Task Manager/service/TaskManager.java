@@ -77,5 +77,20 @@ public class TaskManager {
 
     public void clearAllTasks() {
         tasks.clear();
+        nextId = 0;
+    }
+
+    public void setNextId(int nextId) {
+        this.nextId = nextId;
+    }
+
+    public void syncNextIdFromTasks() {
+        int maxId = -1;
+        for (Task t : tasks) {
+            if (t.getId() > maxId) {
+                maxId = t.getId();
+            }
+        }
+        nextId = maxId + 1;
     }
 }

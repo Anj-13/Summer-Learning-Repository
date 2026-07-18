@@ -90,7 +90,9 @@ public class LibraryService {
         if (returnbook.isAvailable()) return false;
 
         for(BorrowRecord a: borrowRecords) {
-            if(a.getBookId() == bookId && a.getReturnDate() == null) {
+            String returnDate = a.getReturnDate();
+            boolean stillOpen = returnDate == null || returnDate.isEmpty() || returnDate.equals("null");
+            if(a.getBookId() == bookId && stillOpen) {
                 String currentDate = LocalDate.now().toString();
                 a.setReturnDate(currentDate);
                 returnbook.setAvailable(true);
@@ -106,6 +108,7 @@ public class LibraryService {
 
         if (deleteBook != null) {
             books.remove(deleteBook);
+            borrowRecords.removeIf(r -> r.getBookId() == bookId);
             return true;
         }
 

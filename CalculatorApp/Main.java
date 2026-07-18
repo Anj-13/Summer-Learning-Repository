@@ -2,7 +2,7 @@ import java.util.Scanner;
 import service.Calculator;
 import storage.CalculationHistory;
 
-public class main {
+public class Main {
     private static Calculator calculator;
     private static CalculationHistory history;
     private static Scanner scan;
@@ -120,25 +120,30 @@ public class main {
         double b = getNumberInput("Enter second number: ");
         double result = 0;
 
-        switch (operator) {
-            case "+":
-                result = calculator.add(a, b);
-                break;
-            case "-":
-                result = calculator.subtract(a, b);
-                break;
-            case "*":
-                result = calculator.multiply(a, b);
-                break;
-            case "/":
-                result = calculator.divide(a, b);
-                break;
-            case "%":
-                result = calculator.percentage(a, b);
-                break;
-            case "^":
-                result = calculator.power(a, b);
-                break;
+        try {
+            switch (operator) {
+                case "+":
+                    result = calculator.add(a, b);
+                    break;
+                case "-":
+                    result = calculator.subtract(a, b);
+                    break;
+                case "*":
+                    result = calculator.multiply(a, b);
+                    break;
+                case "/":
+                    result = calculator.divide(a, b);
+                    break;
+                case "%":
+                    result = calculator.percentage(a, b);
+                    break;
+                case "^":
+                    result = calculator.power(a, b);
+                    break;
+            }
+        } catch (ArithmeticException e) {
+            System.out.println("Error: " + e.getMessage());
+            return Double.NaN;
         }
 
         String entry = a + " " + operator + " " + b + " = " + result;
@@ -152,27 +157,32 @@ public class main {
         double result = 0;
         String entry = "";
 
-        switch (operation) {
-            case "sqrt":
-                result = calculator.squareRoot(a);
-                entry = "sqrt(" + a + ") = " + result;
-                break;
-            case "!":
-                result = calculator.factorial((int) a);
-                entry = (int) a + "! = " + result;
-                break;
-            case "sin":
-                result = calculator.sine(a);
-                entry = "sin(" + a + ") = " + result;
-                break;
-            case "cos":
-                result = calculator.cosine(a);
-                entry = "cos(" + a + ") = " + result;
-                break;
-            case "tan":
-                result = calculator.tangent(a);
-                entry = "tan(" + a + ") = " + result;
-                break;
+        try {
+            switch (operation) {
+                case "sqrt":
+                    result = calculator.squareRoot(a);
+                    entry = "sqrt(" + a + ") = " + result;
+                    break;
+                case "!":
+                    result = calculator.factorial((int) a);
+                    entry = (int) a + "! = " + result;
+                    break;
+                case "sin":
+                    result = calculator.sine(a);
+                    entry = "sin(" + a + ") = " + result;
+                    break;
+                case "cos":
+                    result = calculator.cosine(a);
+                    entry = "cos(" + a + ") = " + result;
+                    break;
+                case "tan":
+                    result = calculator.tangent(a);
+                    entry = "tan(" + a + ") = " + result;
+                    break;
+            }
+        } catch (ArithmeticException e) {
+            System.out.println("Error: " + e.getMessage());
+            return Double.NaN;
         }
 
         history.addEntry(entry);

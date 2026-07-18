@@ -29,7 +29,7 @@ public class HardComputer extends ComputerPlayer {
             
             int score = minimax(board, 0, false);
             
-            board.makeMove(cell[0], cell[1], ' ');
+            board.clearCell(cell[0], cell[1]);
             
             if (score > bestScore) {
                 bestScore = score;
@@ -60,7 +60,7 @@ public class HardComputer extends ComputerPlayer {
             for (int[] cell : emptyCells) {
                 board.makeMove(cell[0], cell[1], symbol);
                 int score = minimax(board, depth + 1, false);
-                board.makeMove(cell[0], cell[1], ' ');
+                board.clearCell(cell[0], cell[1]);
                 bestScore = Math.max(score, bestScore);
             }
             return bestScore;
@@ -71,7 +71,7 @@ public class HardComputer extends ComputerPlayer {
             for (int[] cell : emptyCells) {
                 board.makeMove(cell[0], cell[1], opponentSymbol);
                 int score = minimax(board, depth + 1, true);
-                board.makeMove(cell[0], cell[1], ' ');
+                board.clearCell(cell[0], cell[1]);
                 bestScore = Math.min(score, bestScore);
             }
             return bestScore;

@@ -104,3 +104,18 @@ The app writes to a temporary file first (`contacts.txt_temp.txt`), then atomica
 - Fixed bugs in `ContactUI.java`: renamed undeclared variable `FM` to `fs`, removed `static` from `getStringInput()`, removed extra closing brace in `searchContactUI()`
 - Fixed `main.java` — corrected method signature to `public static void main`
 - Smoke tested: add, view, save, and exit all confirmed working
+
+### [2026-07-18] Edge Case Testing
+
+- **Done:**
+  - Ran automated edge-case tests (**15 passed**) covering add/search/edit/delete and file load/save
+  - Confirmed correct handling: case-insensitive name search; missing ID/edit/delete fail safely; **`nextId` restored after load** (`max(id) + 1`) so new contacts do not collide
+  - **Bugs / gaps found (not fixed in this pass):**
+    - Pipe (`|`) in name/phone/email breaks the pipe-delimited file format (line skipped on load)
+    - No uniqueness checks — duplicate name/phone/email allowed
+    - No phone-number format validation (any non-empty string accepted)
+    - Email check is a soft warning only (`@` and `.` required for a “valid-looking” address)
+  - Restored deleted `main.java` entry point so the project compiles again
+
+- **In progress:** —
+- **Left:** Optional hardening — escape `|` in fields, phone validation, duplicate detection

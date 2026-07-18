@@ -1,8 +1,7 @@
 import ui.BankSystem;
 
-public class main {
+public class Main {
     public static void main(String[] args) {
-        BankSystem bankSystem = new BankSystem();
-        bankSystem.start();
+        new BankSystem().start();
     }
 }

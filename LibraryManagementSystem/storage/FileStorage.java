@@ -14,7 +14,7 @@ import model.BorrowRecord;
 public class FileStorage {
     private static final String BOOKS_FILE = "books.txt";
     private static final String RECORDS_FILE = "records.txt";
-    private static final String delimiter = ",";
+    private static final String delimiter = "|";
 
     public boolean saveBooks(List<Book> books) {
         Path temp = Paths.get(BOOKS_FILE + "_temp.txt");
@@ -57,15 +57,16 @@ public class FileStorage {
             while ((line = r.readLine()) != null) {
                 Book loadbook = stringToBook(line);
 
-                if (loadbook == null)
-                    break;
+                if (loadbook == null) {
+                    continue;
+                }
 
                 load.add(loadbook);
             }
 
             r.close();
         } catch (Exception e) {
-            System.out.println("Error loading tasks: " + e.getMessage());
+            System.out.println("Error loading books: " + e.getMessage());
         }
 
         return load;
@@ -113,15 +114,16 @@ public class FileStorage {
             while ((line = r.readLine()) != null) {
                 BorrowRecord loadrecord = stringToRecord(line);
 
-                if (loadrecord == null)
-                    break;
+                if (loadrecord == null) {
+                    continue;
+                }
 
                 load.add(loadrecord);
             }
 
             r.close();
         } catch (Exception e) {
-            System.out.println("Error loading tasks: " + e.getMessage());
+            System.out.println("Error loading records: " + e.getMessage());
         }
 
         return load;
@@ -135,15 +137,19 @@ public class FileStorage {
     }
 
     private String recordToString(BorrowRecord record) {
+        String returnDate = record.getReturnDate();
+        if (returnDate == null || returnDate.equals("null") || returnDate.isEmpty()) {
+            returnDate = "";
+        }
         return (record.getId() + delimiter
                 + record.getBookId() + delimiter
                 + record.getBorrowerName() + delimiter
                 + record.getBorrowDate() + delimiter
-                + record.getReturnDate());
+                + returnDate);
     }
 
     private Book stringToBook(String line) {
-        String[] parts = line.split(delimiter);
+        String[] parts = line.split("\\" + delimiter, -1);
 
         if (parts.length == 4) {
             int id = Integer.parseInt(parts[0]);
@@ -151,27 +157,27 @@ public class FileStorage {
             String author = parts[2];
             Boolean available = Boolean.parseBoolean(parts[3]);
 
-            Book book = new Book(id, title, author, available);
-
-            return book;
+            return new Book(id, title, author, available);
         }
 
         return null;
     }
 
     private BorrowRecord stringToRecord(String line) {
-        String[] parts = line.split(delimiter);
+        String[] parts = line.split("\\" + delimiter, -1);
 
         if (parts.length == 5) {
             int id = Integer.parseInt(parts[0]);
             int bookid = Integer.parseInt(parts[1]);
             String borrowName = parts[2];
             String borrowDate = parts[3];
-            String ReturnDate = parts[4];
+            String returnDate = parts[4];
 
-            BorrowRecord record = new BorrowRecord(id, bookid, borrowName, borrowDate, ReturnDate);
+            if (returnDate.isEmpty() || returnDate.equals("null")) {
+                returnDate = null;
+            }
 
-            return record;
+            return new BorrowRecord(id, bookid, borrowName, borrowDate, returnDate);
         }
 
         return null;

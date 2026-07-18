@@ -137,7 +137,7 @@ BankingSystem/
 │   └── BankService.java       # Business logic layer managing multiple accounts + file I/O
 ├── ui/
 │   └── BankSystem.java        # Console-based UI — each menu action extracted into its own method
-├── main.java                  # Entry point — creates BankSystem and calls start()
+├── Main.java                  # Entry point — creates BankSystem and calls start()
 ├── accounts.txt               # Auto-generated persistence file (not tracked in git)
 └── README.md
 ```
@@ -151,10 +151,10 @@ BankingSystem/
 cd BankingSystem
 
 # Compile all source files
-javac model\Transaction.java model\BankAccount.java service\BankService.java ui\BankSystem.java main.java
+javac model\Transaction.java model\BankAccount.java service\BankService.java ui\BankSystem.java Main.java
 
 # Run the application
-java main
+java Main
 ```
 
 ## Edge Cases Handled
@@ -194,3 +194,21 @@ java main
 - **In progress:** None
 
 - **Left:** None — project is complete
+
+### [2026-07-18] Edge Case Testing
+
+- **Done:**
+  - Ran automated edge-case tests against `BankAccount` and `BankService` (**25 passed**)
+  - Confirmed correct handling: zero/negative deposit & withdraw rejected; overdraft blocked; missing account returns `-1.0` / `null` / `false`
+  - Confirmed `saveAccounts()` + reload restores balances correctly when save is called
+  - **Bugs found:**
+    - Missing entry point (`Main.java` / `main.java`) — app could not start as documented
+    - Menu option 6 (`Exit`) broke the loop without calling `exit()` / `saveAccounts()` — **accounts never persisted**
+  - **Fixes applied:**
+    - Added `Main.java` entry point (`new BankSystem().start()`)
+    - Exit path now calls `exit()` so accounts are saved before shutdown
+  - Recompiled successfully after fixes
+
+- **In progress:** —
+
+- **Left:** Empty owner name still allowed; non-numeric Scanner input can still crash the UI (optional hardening)

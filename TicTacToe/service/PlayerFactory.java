@@ -33,10 +33,11 @@ public class PlayerFactory {
         while (true) {
             try {
                 int choice = scanner.nextInt();
-                if (choice >= 1 && choice <= 2) {
+                scanner.nextLine();
+                if (choice >= 1 && choice <= 4) {
                     return choice;
                 } else {
-                    System.out.print("Please enter the number you see here: ");
+                    System.out.print("Please enter a number between 1 and 4: ");
                 }
             } catch (InputMismatchException e) {
                 System.out.print("Please enter a valid number: ");

@@ -56,19 +56,23 @@ A console-based Java application for tracking books, borrowers, and returns. Bui
 
 ## File Storage Format
 
-Files are comma-delimited (`,`) and stored as plain text.
+Files are pipe-delimited (`|`) and stored as plain text.
 
 **books.txt** — one book per line:
 ```
-1,Harry Potter,J.K. Rowling,true
+1|Harry Potter|J.K. Rowling|true
 ```
 
 **records.txt** — one record per line:
 ```
-1,1,John Doe,2026-07-07,null
+1|1|John Doe|2026-07-07|
 ```
 
+Open loans store an **empty** return-date field (not the literal string `null`). On load, empty / `"null"` values are restored as Java `null`.
+
 The save strategy uses atomic temporary-file writes: data is written to a `_temp.txt` file first, then atomically renamed to the target file. Missing files on load are silently handled (empty library).
+
+> **Note:** Older comma-delimited save files are incompatible. Delete `books.txt` / `records.txt` if upgrading from the previous format.
 
 ---
 
@@ -119,6 +123,9 @@ The following methods were implemented beyond the original plan:
 | Invalid menu choice | Prints "Invalid choice. Please try again." |
 | `nextInt()` Scanner newline | `scanner.nextLine()` called after `nextInt()` to consume trailing newline |
 | Search with mixed case | `.toLowerCase()` on both search term and titles for case-insensitive match |
+| Comma in title/author | Supported via pipe (`\|`) delimiter |
+| Return after save/reload | Open loans reload with Java `null` return date and can be returned |
+| Delete borrowed book | Book and related borrow records are removed together |
 
 
 ## Future Improvements
@@ -147,3 +154,23 @@ The following methods were implemented beyond the original plan:
   - Added `package` declarations and cross-package imports to all moved files
 - **In progress:** Wrapping up project documentation and structure
 - **Left:** N/A (MVP complete)
+
+### [2026-07-18] Edge Case Testing
+
+- **Done:**
+  - Ran automated edge-case tests (**17 passed**) covering borrow/return, search, delete, and file persistence
+  - Confirmed correct handling: double-borrow blocked; return of available book fails; missing IDs fail; empty search matches all titles
+  - **Bugs found:**
+    - Saving open loans wrote the literal string `"null"` for return date; after reload `returnDate == null` was false → **return failed after restart**
+    - Comma delimiter broke titles like `"Hello, World"` on load (wrong field count)
+    - Deleting a borrowed book left orphan borrow records
+  - **Fixes applied:**
+    - Switched storage delimiter from `,` to `|`
+    - Serialize open return dates as empty; load empty/`"null"` as Java `null`
+    - `returnBook` treats empty/`"null"` as still open (backwards-compatible with bad saved data)
+    - `deleteBook` also removes matching borrow records
+    - Malformed load lines are skipped (`continue`) instead of aborting the rest of the file
+  - Verified after fix: comma-in-title round-trips; return works after save/reload
+
+- **In progress:** —
+- **Left:** Empty title/author still allowed; non-numeric menu input can still crash via uncaught `InputMismatchException`

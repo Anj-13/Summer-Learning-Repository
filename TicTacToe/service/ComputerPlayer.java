@@ -19,7 +19,7 @@ public abstract class ComputerPlayer extends Player{
                     board.makeMove(row, col, symbol);
                     
                     boolean wins = checkWin(board, symbol);
-                    board.makeMove(row, col, ' ');
+                    board.clearCell(row, col);
                     
                     if (wins) {
                         return new int[]{row, col};

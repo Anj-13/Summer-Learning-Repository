@@ -42,6 +42,12 @@ public class Board {
         return true;
     }
 
+    public void clearCell(int row, int col) {
+        if (isValidCell(row, col)) {
+            board[row][col] = ' ';
+        }
+    }
+
     public char getCell(int row, int col) {
         if (!isValidCell(row, col)) {
             throw new IllegalArgumentException("Invalid board coordinates: Row " + row + ", Col " + col);

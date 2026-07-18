@@ -18,12 +18,10 @@ public class BankSystem {
             int choice = scan.nextInt();
             scan.nextLine();
             if (choice == 6) {
-                break;
+                exit();
             }
             handleChoice(choice);
         }
-
-        scan.close();
     }
 
     private void displayMenu() {

@@ -6,7 +6,7 @@ import model.Task;
 import service.TaskManager;
 import storage.FileStorage;
 
-public class main {
+public class Main {
     private static TaskManager TM;
     private static FileStorage FS;
     private static Scanner scan;
@@ -19,6 +19,7 @@ public class main {
         ArrayList<Task> loaded = FS.loadTasks();
         if (loaded != null && !loaded.isEmpty()) {
             TM.tasks = loaded;
+            TM.syncNextIdFromTasks();
             System.out.println("Loaded " + loaded.size() + " tasks from file");
         } else {
             System.out.println("No saved tasks found. Starting fresh.");
@@ -171,6 +172,7 @@ public class main {
         if (loaded != null && !loaded.isEmpty()) {
             TM.tasks.clear();
             TM.tasks.addAll(loaded);
+            TM.syncNextIdFromTasks();
             System.out.println("Loaded " + loaded.size() + " tasks from file.");
         } else {
             System.out.println("No tasks found in file.");
