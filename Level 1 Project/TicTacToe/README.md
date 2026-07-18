@@ -48,15 +48,15 @@ Enter column:
 | File | Purpose |
 |---|---|
 | `Main.java` | Entry point — instantiates `Game` and calls `startGame()` |
-| `Game.java` | Orchestrates the match loop, win/draw checks, and play-again flow |
-| `Board.java` | Models the 3x3 grid with move validation, display, and reset |
-| `Player.java` | Abstract base class defining `getMove()` contract |
-| `HumanPlayer.java` | Reads row/col from `Scanner` with error handling |
-| `ComputerPlayer.java` | Abstract base with helper methods (`getWinningMove`, `checkWin`, `getEmptyCells`) |
-| `EasyComputer.java` | Picks a random empty cell |
-| `MediumComputer.java` | Rule-based: win > block > centre > corner > random |
-| `HardComputer.java` | Minimax algorithm — never loses |
-| `PlayerFactory.java` | Menu display, input validation, and player instantiation |
+| `ui/Game.java` | Orchestrates the match loop, win/draw checks, and play-again flow |
+| `model/Board.java` | Models the 3x3 grid with move validation, display, and reset |
+| `model/Player.java` | Abstract base class defining `getMove()` contract |
+| `ui/HumanPlayer.java` | Reads row/col from `Scanner` with error handling |
+| `service/ComputerPlayer.java` | Abstract base with helper methods (`getWinningMove`, `checkWin`, `getEmptyCells`) |
+| `service/EasyComputer.java` | Picks a random empty cell |
+| `service/MediumComputer.java` | Rule-based: win > block > centre > corner > random |
+| `service/HardComputer.java` | Minimax algorithm — never loses |
+| `service/PlayerFactory.java` | Menu display, input validation, and player instantiation |
 
 ## How to Run
 
@@ -65,7 +65,7 @@ Enter column:
 1. Open a terminal in the `TicTacToe` directory
 2. Compile all source files:
    ```
-   javac *.java
+   javac -d . model\Board.java model\Player.java service\ComputerPlayer.java service\EasyComputer.java service\MediumComputer.java service\HardComputer.java service\PlayerFactory.java ui\HumanPlayer.java ui\Game.java Main.java
    ```
 3. Run the game:
    ```
@@ -98,3 +98,27 @@ Enter column:
 - **Done:** Created project structure with `Board`, `Game`, `Player`, `Main`, `HumanPlayer`, `ComputerPlayer`, `EasyComputer`, `MediumComputer`, `HardComputer`, and `PlayerFactory` classes. Implemented Minimax for Hard difficulty. Added input validation and error handling throughout.
 - **In progress:** Documentation and README finalisation.
 - **Left:** GUI version, online multiplayer, scoreboard persistence.
+
+### [2026-07-07 15:03]
+
+- **Done:** Restructured project into `model/`, `service/`, `ui/` packages: `Board.java` and `Player.java` → `model/`; `ComputerPlayer.java`, `EasyComputer.java`, `MediumComputer.java`, `HardComputer.java`, `PlayerFactory.java` → `service/`; `Game.java` and `HumanPlayer.java` → `ui/`. Renamed `Main.java` → `main.java` with `import ui.Game;`. Added package declarations to all moved files. Updated `README.md` project structure and compile/run instructions.
+- **In progress:** —
+- **Left:** —
+
+### [2026-07-18] Edge Case Testing
+
+- **Done:**
+  - Ran automated edge-case tests (**16 passed**) covering board validation, AI behaviour, and player-type menu
+  - Confirmed correct handling: occupied cells rejected; out-of-bounds rejected; full board detected; Easy AI only picks empty cells
+  - **Bugs found:**
+    - `PlayerFactory.choosePlayerType` only accepted choices **1–2**, so Medium/Hard were unreachable despite the menu showing 1–4
+    - Medium/Hard AI “undo” used `makeMove(row, col, ' ')`, which fails on occupied cells → **board corruption** during win/block/minimax simulation
+    - Leftover newline after `nextInt()` skipped Player 2’s custom name
+  - **Fixes applied:**
+    - Menu validation now accepts **1–4**
+    - Added `Board.clearCell(row, col)`; Medium/Hard undo paths use it instead of `makeMove(..., ' ')`
+    - `choosePlayerType` consumes the rest of the line after reading the choice
+  - Verified after fix: Medium AI no longer corrupts the board; winning move still returned correctly
+
+- **In progress:** —
+- **Left:** —

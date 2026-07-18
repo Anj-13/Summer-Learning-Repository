@@ -1,8 +1,7 @@
-import ui.Game;
+import ui.ExpenseUI;
 
 public class Main {
     public static void main(String[] args) {
-        Game game = new Game();
-        game.startGame();
+        ExpenseUI.start();
     }
 }

@@ -2,6 +2,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import model.Task;
+import service.TaskManager;
+import storage.FileStorage;
 
 public class Main {
     private static TaskManager TM;
@@ -16,6 +19,7 @@ public class Main {
         ArrayList<Task> loaded = FS.loadTasks();
         if (loaded != null && !loaded.isEmpty()) {
             TM.tasks = loaded;
+            TM.syncNextIdFromTasks();
             System.out.println("Loaded " + loaded.size() + " tasks from file");
         } else {
             System.out.println("No saved tasks found. Starting fresh.");
@@ -168,6 +172,7 @@ public class Main {
         if (loaded != null && !loaded.isEmpty()) {
             TM.tasks.clear();
             TM.tasks.addAll(loaded);
+            TM.syncNextIdFromTasks();
             System.out.println("Loaded " + loaded.size() + " tasks from file.");
         } else {
             System.out.println("No tasks found in file.");

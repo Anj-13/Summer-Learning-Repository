@@ -53,12 +53,12 @@ Each line is a formatted entry string. The file is loaded on startup and saved o
 
 ## Project Structure
 
-| File                   | Purpose                                              |
-|------------------------|------------------------------------------------------|
-| `Calculator.java`      | Core arithmetic and advanced math methods            |
-| `CalculationHistory.java` | In-memory history list with file I/O persistence  |
-| `Main.java`            | Menu loop, user input, operation routing, history UI |
-| `history.txt`          | Persistent storage for calculation history           |
+| File                              | Purpose                                              |
+|-----------------------------------|------------------------------------------------------|
+| `service/Calculator.java`         | Core arithmetic and advanced math methods            |
+| `storage/CalculationHistory.java` | In-memory history list with file I/O persistence     |
+| `Main.java`                       | Menu loop, user input, operation routing, history UI |
+| `history.txt`                     | Persistent storage for calculation history           |
 
 ## How to Run
 
@@ -66,7 +66,7 @@ Each line is a formatted entry string. The file is loaded on startup and saved o
 
 1. Compile all source files:
    ```
-   javac Calculator.java CalculationHistory.java Main.java
+   javac -d . service\Calculator.java storage\CalculationHistory.java Main.java
    ```
 2. Run the application:
    ```
@@ -77,10 +77,10 @@ Each line is a formatted entry string. The file is loaded on startup and saved o
 
 | Scenario                          | Response                                      |
 |-----------------------------------|-----------------------------------------------|
-| Division by zero                  | `ArithmeticException` with descriptive message|
-| Square root of negative number    | `ArithmeticException` with descriptive message|
-| Factorial of negative number      | `ArithmeticException` with descriptive message|
-| Tangent at 90°, 270°, etc.        | `ArithmeticException` with descriptive message|
+| Division by zero                  | UI catches exception, prints error, menu continues    |
+| Square root of negative number    | UI catches exception, prints error, menu continues    |
+| Factorial of negative number      | UI catches exception, prints error, menu continues    |
+| Tangent at 90°, 270°, etc.        | UI catches exception, prints error, menu continues    |
 | Non-numeric input                 | Re-prompt until valid number entered          |
 | Invalid menu choice               | "Invalid choice. Please try again."           |
 | Empty history view                | "No history available."                       |
@@ -104,3 +104,24 @@ Each line is a formatted entry string. The file is loaded on startup and saved o
 - **Done:** Created calculator methods, menu system, user input handling, divide-by-zero check, advanced operations, history management, history persistence to `history.txt`, input validation, clear-history confirmation, and edge case handling for negative square root, negative factorial, and undefined tangent angles.
 - **In progress:** —
 - **Left:** —
+
+### [2026-07-07 14:57]
+
+- **Done:** Restructured project into `service/` and `storage/` packages; moved `Calculator.java` → `service/Calculator.java` with `package service;`, moved `CalculationHistory.java` → `storage/CalculationHistory.java` with `package storage;`; renamed `Main.java` → `main.java`, updated imports and class name; removed `Basic Plan.md`; updated `README.md` with new structure and compile/run instructions.
+- **In progress:** —
+- **Left:** —
+
+### [2026-07-18] Edge Case Testing
+
+- **Done:**
+  - Ran automated service-layer edge-case tests (**19 passed**): arithmetic ops, divide-by-zero / negative √ / negative factorial / tan(90) guards, Infinity on huge power
+  - UI probe: divide-by-zero previously **crashed** the session with uncaught `ArithmeticException` (`Divide by zero is a black hole!`)
+  - **Bugs found:**
+    - `Calculator` correctly threw on bad math, but `Main` never caught those exceptions → app terminated
+  - **Fixes applied:**
+    - Wrapped binary/unary operations in `try/catch (ArithmeticException)` — prints `Error: …` and returns to the menu
+    - Renamed entry class to `Main` to match `Main.java`
+  - Verified after fix: `10 / 0` prints error then continues; Exit still works (exit code 0)
+
+- **In progress:** —
+- **Left:** Factorial truncates fractional input via `(int)` cast; very large factorial/power can yield `Infinity` without a warning

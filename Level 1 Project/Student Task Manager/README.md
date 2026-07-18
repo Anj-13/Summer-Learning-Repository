@@ -58,19 +58,18 @@ The file is written atomically using a temporary file and `Files.move()` to prev
 
 ## Project Structure
 
-| File             | Purpose                                          |
-|------------------|--------------------------------------------------|
-| `Task.java`      | Defines the Task data structure and PriorityOption enum |
-| `TaskManager.java` | Manages task operations (add, delete, complete, filter) |
-| `FileStorage.java` | Handles reading and writing tasks to file         |
-| `Main.java`      | Contains the main loop, menu, and user interface  |
-| `Basic Plan.md`  | Original project specification and planning doc   |
+| File                          | Purpose                                          |
+|-------------------------------|--------------------------------------------------|
+| `model/Task.java`             | Defines the Task data structure and PriorityOption enum |
+| `service/TaskManager.java`    | Manages task operations (add, delete, complete, filter) |
+| `storage/FileStorage.java`    | Handles reading and writing tasks to file         |
+| `Main.java`                   | Contains the main loop, menu, and user interface  |
 
 ## How to Run
 
 1. Ensure you have **Java 8 or higher** installed
 2. Open a terminal in the project directory
-3. Compile: `javac *.java`
+3. Compile: `javac -d . model\Task.java service\TaskManager.java storage\FileStorage.java Main.java`
 4. Run: `java Main`
 
 ## Edge Cases Handled
@@ -82,6 +81,7 @@ The file is written atomically using a temporary file and `Files.move()` to prev
 - **File does not exist on startup** — graceful message, starts with empty list
 - **Empty task list** — appropriate messages for view/delete operations
 - **Destructive operations** — confirmation prompts for delete, clear, and exit
+- **ID continuity after load** — `nextId` is synced to `max(id) + 1` so new tasks never collide with restored IDs
 
 ## Future Improvements
 
@@ -147,3 +147,42 @@ The file is written atomically using a temporary file and `Files.move()` to prev
 
 **Left:**
 - (Optional) .jar packaging
+
+---
+
+### [2026-07-07 15:01]
+
+**Done:**
+- Restructured project into `model/`, `service/`, `storage/` packages: moved `Task.java` → `model/Task.java` with `package model;`, `TaskManager.java` → `service/TaskManager.java` with `package service;`, `FileStorage.java` → `storage/FileStorage.java` with `package storage;`
+- Renamed `Main.java` → `main.java`, updated class name and added imports for packaged classes
+- Removed `Basic Plan.md`
+- Updated `README.md` project structure, compile/run commands, and this log entry
+
+**In progress:**
+- —
+
+**Left:**
+- —
+
+---
+
+### [2026-07-18] Edge Case Testing
+
+**Done:**
+- Ran automated edge-case tests (**14 passed**) covering CRUD, filters, and file persistence
+- Confirmed correct handling: mark/delete missing IDs; complete/incomplete filters; clear continues ID sequence
+- **Bugs found:**
+  - After startup load or menu "Load from File", `nextId` stayed at `0` → new tasks collided with saved IDs; `findTaskById` returned the first match only
+  - Pipe (`|`) characters in title/description break the pipe-delimited save format
+- **Fixes applied:**
+  - Added `TaskManager.syncNextIdFromTasks()` and `setNextId(int)`
+  - Startup load and `loadFromFile()` now call `syncNextIdFromTasks()`
+  - `clearAllTasks()` resets `nextId` to `0`
+  - Renamed entry class to `Main` so it matches `Main.java` and compiles cleanly
+- Verified after fix: new task after load gets the next free ID (no collision)
+
+**In progress:**
+- —
+
+**Left:**
+- Delimiter characters in title/description still unsupported (optional escaping)
