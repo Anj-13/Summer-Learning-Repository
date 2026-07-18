@@ -4,6 +4,19 @@ A collection of 10 Java console-based applications built as part of the Summer L
 
 ---
 
+## What I Learned
+
+| Category | Badges | Frameworks, Tools & Core Concepts |
+| :--- | :--- | :--- |
+| **Languages** | ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white) | Java 8+, console applications, JDK standard library only |
+| **Architecture** | ![OOP](https://img.shields.io/badge/OOP-2C3E50?style=for-the-badge) ![MVC](https://img.shields.io/badge/Layered_MVC-6C63FF?style=for-the-badge) | Packages: `model` / `service` / `ui` / `storage`, encapsulation, enums, abstract classes & polymorphism (e.g. TicTacToe players) |
+| **Core Java APIs** | ![Java](https://img.shields.io/badge/java.util-007396?style=for-the-badge&logo=openjdk&logoColor=white) ![Time](https://img.shields.io/badge/java.time-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white) | `ArrayList`, `List`, `Scanner`, `Collections.shuffle`, `LocalDate` / `LocalDateTime`, `Math` (calculator & grades) |
+| **File I/O & Persistence** | ![I/O](https://img.shields.io/badge/File_I%2FO-4CAF50?style=for-the-badge) ![NIO](https://img.shields.io/badge/java.nio.file-1565C0?style=for-the-badge) | `BufferedReader` / `BufferedWriter`, `Files.move()` atomic saves, pipe/CSV text formats, binary serialization (`ObjectOutputStream`) |
+| **Algorithms & Logic** | ![Algorithms](https://img.shields.io/badge/Algorithms-FF5722?style=for-the-badge) | Minimax AI (Hard TicTacToe), weighted averages, streak calculation, input validation & edge-case handling |
+| **Dev Tools** | ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white) ![VS Code](https://img.shields.io/badge/VS_Code-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white) ![OpenJDK](https://img.shields.io/badge/OpenJDK-21-white?style=for-the-badge&logo=openjdk&logoColor=black) | Git version control, GitHub, VS Code / Cursor, `javac` / `java` CLI |
+
+---
+
 ## Features
 
 - **10 complete Java applications** covering various domains
@@ -95,6 +108,6 @@ Projects were built in the following order:
 - **Left:** Potential GUI enhancements and database integration
 
 ### [2026-07-18]
-- **Done:** Updated root `README.md` so the project list matches `Do this in order.txt` (completion order 1–10)
+- **Done:** Updated root `README.md` so the project list matches `Do this in order.txt` (completion order 1–10); added **What I Learned** badge table (Java, OOP/layered architecture, File I/O, algorithms, Git/GitHub tools)
 - **In progress:** —
 - **Left:** —
