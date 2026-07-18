@@ -2,6 +2,10 @@
 
 *.md
 
+.vscode
+
+.vscode/
+
 !README.md
 !ReadMe.md
 !readme.md
