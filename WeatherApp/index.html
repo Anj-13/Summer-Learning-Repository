@@ -1,11 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    
+  <div class="page-bg" aria-hidden="true"></div>
+  <div class="ambient ambient-a" aria-hidden="true"></div>
+  <div class="ambient ambient-b" aria-hidden="true"></div>
+  <div class="ambient ambient-c" aria-hidden="true"></div>
+  <div class="ambient ambient-d" aria-hidden="true"></div>
+
+  <main class="app-shell">
+    <section class="hero-panel">
+      <div class="hero-copy-block">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <h1 id="page-title">Weather App</h1>
+        <p class="hero-copy">
+          Search any city, scan current conditions, save favourites locally,
+          and preview a simple five-day outlook
+        </p>
+      </div>
+
+      <form class="search-card" id="searchForm" autocomplete="off">
+        <label for="cityInput">Search city</label>
+        <div class="search-row">
+          <input
+            id="cityInput"
+            name="city"
+            type="search"
+            placeholder="Try London, Tokyo"
+            aria-describedby="message"
+          />
+          <button type="submit">Check</button>
+        </div>
+        <div class="quick-cities" aria-label="Suggested cities">
+          <button type="button" data-city="London">London</button>
+          <button type="button" data-city="Tokyo">Tokyo</button>
+          <button type="button" data-city="Sydney">Sydney</button>
+        </div>
+        <p class="message" id="message" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="dashboard-grid">
+      <article class="weather-card" aria-labelledby="weatherCity">
+        <div class="weather-topline">
+          <div>
+            <span class="section-kicker">Current weather</span>
+            <h2 id="weatherCity">London</h2>
+            <p id="weatherDate">Today</p>
+          </div>
+          <button class="save-button" id="saveFavourite" type="button">Save city</button>
+        </div>
+
+        <div class="weather-display">
+          <div class="weather-orb" id="weatherOrb" aria-hidden="true">
+            <span class="sun-core"></span>
+            <span class="cloud cloud-a"></span>
+            <span class="cloud cloud-b"></span>
+            <span class="rain rain-a"></span>
+            <span class="rain rain-b"></span>
+            <span class="rain rain-c"></span>
+          </div>
+          <div>
+            <p class="temperature"><span id="temperature">21</span><sup>°C</sup></p>
+            <p class="condition" id="condition">Cloudy</p>
+          </div>
+        </div>
+
+        <div class="metric-grid">
+          <div class="metric">
+            <span>Humidity</span>
+            <strong id="humidity">70%</strong>
+          </div>
+          <div class="metric">
+            <span>Wind speed</span>
+            <strong id="windSpeed">12 km/h</strong>
+          </div>
+          <div class="metric">
+            <span>Feels like</span>
+            <strong id="feelsLike">20°C</strong>
+          </div>
+        </div>
+      </article>
+
+      <aside class="favourites-card" aria-labelledby="favouritesTitle">
+        <div class="section-heading">
+          <span class="section-kicker">LocalStorage</span>
+          <h2 id="favouritesTitle">Favourite cities</h2>
+        </div>
+        <div class="favourites-list" id="favouritesList"></div>
+        <p class="empty-state" id="emptyFavourites">No favourites yet. Save a city to pin it here.</p>
+        <p class="favourites-hint">Favourite chips behave like quick search shortcuts.</p>
+      </aside>
+    </section>
+
+    <section class="forecast-panel" aria-labelledby="forecastTitle">
+      <div class="section-heading">
+        <span class="section-kicker">Planning view</span>
+        <h2 id="forecastTitle">5-day forecast</h2>
+      </div>
+      <div class="forecast-grid" id="forecastGrid"></div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>
