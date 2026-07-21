@@ -6,6 +6,13 @@
 
 .vscode/
 
+.cursor
+
+.cursor/
+
+Remaining
+Remaining/
+
 !README.md
 !ReadMe.md
 !readme.md
