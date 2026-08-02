@@ -156,11 +156,11 @@ Then open the URL printed in the terminal (often `http://localhost:3000`).
 
 ### Homepage / dashboard
 
-Weather App homepage dashboard
+![Weather App homepage dashboard](Screenshot/HomePage-Screenshot.JPG)
 
 ### Mobile layout
 
-Weather App mobile layout
+![Weather App mobile layout](Screenshot/Mobile-Screenshot.JPG)
 
 ## Edge Cases Handled
 
