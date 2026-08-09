@@ -1,15 +1,16 @@
 /**
  * In-memory local database used when Postgres is unavailable.
- * Keeps coursework SQL paths intact: data.ts / actions.ts try Postgres first,
+ * Keeps coursework SQL paths intact: data.ts / actions.ts / auth.ts try Postgres first,
  * then fall back here. Data resets when the Next.js server restarts.
  */
+import bcrypt from 'bcrypt';
 import {
   customers as seedCustomers,
   invoices as seedInvoices,
   revenue as seedRevenue,
   users as seedUsers,
 } from './placeholder-data';
-import type { InvoicesTable } from './definitions';
+import type { InvoicesTable, User } from './definitions';
 
 export type LocalInvoice = {
   id: string;
@@ -19,9 +20,19 @@ export type LocalInvoice = {
   date: string;
 };
 
-export const localUsers = [...seedUsers];
+// Hash passwords once at startup so bcrypt.compare works like the seeded Postgres users.
+export const localUsers: User[] = seedUsers.map((user) => ({
+  ...user,
+  password: bcrypt.hashSync(user.password, 10),
+}));
 export const localCustomers = [...seedCustomers];
 export const localRevenue = [...seedRevenue];
+
+export function getLocalUserByEmail(email: string): User | undefined {
+  return localUsers.find(
+    (user) => user.email.toLowerCase() === email.toLowerCase(),
+  );
+}
 
 export const localInvoices: LocalInvoice[] = seedInvoices.map(
   (invoice, index) => ({
