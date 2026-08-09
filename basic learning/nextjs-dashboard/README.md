@@ -119,6 +119,33 @@ Optional (course path): copy `.env.example` → `.env.local`, add a `POSTGRES_UR
 
 Useful scripts: `pnpm build`, `pnpm start`, `pnpm lint`
 
+## Git Ignore (local PC config)
+
+`.gitignore` keeps **machine-specific / personal** files out of GitHub so each learner’s PC config does not pollute the repo.
+
+| Category | Ignored examples | Why |
+| --- | --- | --- |
+| Dependencies / build | `node_modules/`, `.next/`, `.turbo/`, `out/`, `build/` | Regenerated locally; large & machine-dependent |
+| Secrets | `.env`, `.env*.local` | Private DB / auth keys (keep `.env.example` tracked) |
+| OS junk | `.DS_Store`, `Thumbs.db`, `Desktop.ini` | Windows / macOS desktop metadata |
+| Editors / IDE | `.vscode/`, `.idea/`, `.cursor/` | Personal editor settings |
+| Logs / caches | `*.log`, `debug-*.log`, `.eslintcache`, `*.tsbuildinfo` | Local debug output |
+| Next agent file | `AGENTS.md` | Auto-rewritten by `next dev` per machine |
+| Personal notes | `lefted-at.txt`, `*.local.md` | Private learning bookmarks |
+
+**Stopped tracking on the branch (files stay on your PC, not on GitHub):**
+
+- `AGENTS.md`
+- `lefted-at.txt`
+
+If those files ever get committed again by mistake, untrack them without deleting locally:
+
+```bash
+git rm --cached AGENTS.md lefted-at.txt
+git add .gitignore
+git commit -m "Stop tracking local PC config files"
+```
+
 ## Edge Cases Handled
 
 - **No Postgres / Vercel** — fetches and mutations fall back to `local-db` instead of crashing
@@ -141,11 +168,17 @@ Cursor agents helped on request during this learning path:
 
 - **Local database** — implemented Postgres-first + local fallback so coursework SQL stays while learning without Vercel Postgres
 - **Debugging** — dependency / lint issues (e.g. ESLint 10 vs 9, pnpm build approvals) and edit-page wiring fixes
-- **Git** — occasional branch cleanup / orphaning when isolating experimental work from the main learning history
+- **Git** — occasional branch cleanup / orphaning; expanded `.gitignore` and untracked local PC files (`AGENTS.md`, `lefted-at.txt`) so they are not pushed to GitHub
 
 Ask the agent when you want the same flexibility (local data, debug a failing step, or tidy git history) without dropping the official course code paths.
 
 ## Development Log
+
+### [2026-08-10 00:20]
+
+- **Done:** Expanded `.gitignore` for OS / IDE / env / cache / agent files; ran `git rm --cached` on `AGENTS.md` and `lefted-at.txt` so they remain local only; documented the ignore + untrack steps in this README.
+- **In progress:** Working through App Router course chapters with local-db enabled for day-to-day practice.
+- **Left:** Commit and push the `.gitignore` + untrack changes on `basic-learing-only` if not already pushed; optional real Postgres for Chapter 6 “as written”.
 
 ### [2026-08-09 18:00]
 
