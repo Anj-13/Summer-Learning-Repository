@@ -9,42 +9,19 @@ import {
 } from './definitions';
 import { formatCurrency } from './utils';
 import {
-  customers as localCustomers,
-  invoices as localInvoices,
-  revenue as localRevenue,
-} from './placeholder-data';
+  getLocalJoinedInvoices,
+  localCustomers,
+  localInvoices,
+  localRevenue,
+} from './local-db';
 
+// Coursework Postgres client — kept so you can learn the SQL path.
+// When POSTGRES_URL is missing/unavailable, fetch helpers fall back to local-db.
 const sql = process.env.POSTGRES_URL
   ? postgres(process.env.POSTGRES_URL, {
       ssl: process.env.POSTGRES_SSL === 'false' ? false : 'require',
     })
   : null;
-
-const localInvoicesWithIds = localInvoices.map((invoice, index) => ({
-  ...invoice,
-  id: `local-invoice-${index + 1}`,
-  status: invoice.status as 'pending' | 'paid',
-}));
-
-function getLocalJoinedInvoices(): InvoicesTable[] {
-  return localInvoicesWithIds
-    .map((invoice) => {
-      const customer = localCustomers.find((c) => c.id === invoice.customer_id);
-      if (!customer) return null;
-      return {
-        id: invoice.id,
-        customer_id: invoice.customer_id,
-        name: customer.name,
-        email: customer.email,
-        image_url: customer.image_url,
-        date: invoice.date,
-        amount: invoice.amount,
-        status: invoice.status,
-      };
-    })
-    .filter((invoice): invoice is InvoicesTable => invoice !== null)
-    .sort((a, b) => b.date.localeCompare(a.date));
-}
 
 function matchesQuery(value: string, query: string) {
   return value.toLowerCase().includes(query.toLowerCase());
@@ -54,7 +31,7 @@ export async function fetchRevenue() {
   try {
     if (!sql) throw new Error('No database configured');
     const data = await sql<Revenue[]>`SELECT * FROM revenue`;
-    
+
     return data;
   } catch (error) {
     console.error('Database Error (using local revenue):', error);
@@ -93,6 +70,9 @@ export async function fetchLatestInvoices() {
 export async function fetchCardData() {
   try {
     if (!sql) throw new Error('No database configured');
+    // You can probably combine these into a single SQL query
+    // However, we are intentionally splitting them to demonstrate
+    // how to initialize multiple queries in parallel with JS.
     const invoiceCountPromise = sql`SELECT COUNT(*) FROM invoices`;
     const customerCountPromise = sql`SELECT COUNT(*) FROM customers`;
     const invoiceStatusPromise = sql`SELECT
@@ -114,16 +94,16 @@ export async function fetchCardData() {
     };
   } catch (error) {
     console.error('Database Error (using local card data):', error);
-    const paid = localInvoicesWithIds
+    const paid = localInvoices
       .filter((invoice) => invoice.status === 'paid')
       .reduce((sum, invoice) => sum + invoice.amount, 0);
-    const pending = localInvoicesWithIds
+    const pending = localInvoices
       .filter((invoice) => invoice.status === 'pending')
       .reduce((sum, invoice) => sum + invoice.amount, 0);
 
     return {
       numberOfCustomers: localCustomers.length,
-      numberOfInvoices: localInvoicesWithIds.length,
+      numberOfInvoices: localInvoices.length,
       totalPaidInvoices: formatCurrency(paid),
       totalPendingInvoices: formatCurrency(pending),
     };
@@ -221,13 +201,14 @@ export async function fetchInvoiceById(id: string) {
 
     const invoice = data.map((invoice) => ({
       ...invoice,
+      // Convert amount from cents to dollars
       amount: invoice.amount / 100,
     }));
 
     return invoice[0];
   } catch (error) {
     console.error('Database Error (using local invoice by id):', error);
-    const invoice = localInvoicesWithIds.find((item) => item.id === id);
+    const invoice = localInvoices.find((item) => item.id === id);
     if (!invoice) return undefined;
 
     return {
@@ -294,7 +275,7 @@ export async function fetchFilteredCustomers(query: string) {
           matchesQuery(customer.email, query),
       )
       .map((customer) => {
-        const customerInvoices = localInvoicesWithIds.filter(
+        const customerInvoices = localInvoices.filter(
           (invoice) => invoice.customer_id === customer.id,
         );
         const totalPending = customerInvoices
