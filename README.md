@@ -53,3 +53,26 @@ See [`Level 1 Project/README.md`](Level%201%20Project/README.md) for full detail
 | **Frontend** | ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white) ![Chart.js](https://img.shields.io/badge/Chart.js-FF6384?style=for-the-badge&logo=chartdotjs&logoColor=white) | Vanilla JavaScript, Flexbox, Media Queries, Google Fonts |
 | **DevOps & Tools** | ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white) ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white) ![VS Code](https://img.shields.io/badge/VS_Code-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white) ![NPM](https://img.shields.io/badge/NPM-CB3837?style=for-the-badge&logo=npm&logoColor=white) | Dockerfile, Live Server plugin |
 | **Java Deep Dive** | ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white) | Java 8+, layered MVC (`model`/`service`/`ui`/`storage`), `java.time`, File I/O (`BufferedReader`/`BufferedWriter`, `Files.move()`, serialization), OOP (enums, polymorphism), algorithms (Minimax) |
+
+---
+
+## Cursor agents — what has been done
+
+This repository is also a record of how **Cursor agents** were used for Git recovery and branch integration.
+
+### Aug 9 & 10, 2026: human rebase error and repo mess
+
+While trying to bring the orphan branch `basic-learing-only` (basic learning work: React weather app, Next.js dashboard) into `main`, a **rebase** was used instead of a merge. That rewrote `main`’s history, made the commit graph confusing, and made it look as if earlier commits were lost. The orphan branch itself was still fine; the damage was on `main` (and briefly on `origin/main` after the rewritten history was pushed).
+
+### Using Cursor agents to recover and merge correctly
+
+Cursor agents were then used to:
+
+1. **Inspect** `git reflog` / branch state and confirm the commits were recoverable, not permanently deleted.
+2. **Reset** local `main` to the pre-rebase tip (`cfef51b` — *Aug 2: Moved docker-basic to basic learning and added tic-tac-toe-react*).
+3. **Force-push with lease** (on explicit approval) so `origin/main` matched that restored history.
+4. **Merge** the orphan branch the right way: `git merge basic-learing-only --allow-unrelated-histories`, producing merge commit `92c988f` on `main`, then push.
+
+Outcome: `main` keeps its original history **and** the unrelated `basic-learing-only` history, joined by a proper merge commit, with the basic learning projects available under `basic learning/`.
+
+This section exists so future work (and future Cursor agents) know that orphan branches in this repo were meant to be **merged with unrelated histories**, and that the Aug 10 incident was fixed by agent-assisted recovery after a human rebase mistake — not by more rebasing.
