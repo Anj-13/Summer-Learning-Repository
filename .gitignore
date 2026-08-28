@@ -3,3 +3,14 @@
 node_modules/
 __pycache__/
 *.pyc
+
+# Scala
+.scala-build/
+.metals/
+.bsp/
+.bloop/
+scala-cli/.scala-build/
+target/
+*.class
+*.tasty
+*.semanticdb
