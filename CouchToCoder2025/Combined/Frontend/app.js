@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const stepsText = event.currentTarget.steps.value;
       newRecipe.steps = stepsText.split(/\r?\n/);
 
-      fetch('http://localhost:3001/recipes', {
+      fetch('http://localhost:3003/recipes', {
          method: 'POST', // Specify the request method 
          headers: {
             'Content-Type': 'application/json'  

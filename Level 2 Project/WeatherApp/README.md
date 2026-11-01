@@ -144,7 +144,7 @@ Planned for a later iteration: OpenWeatherMap or WeatherAPI, with the API key ke
 Optional local server from the repo root:
 
 ```bash
-cd WeatherApp
+cd "Level 2 Project/WeatherApp"
 npx --yes serve .
 ```
 
@@ -185,7 +185,7 @@ Then open the URL printed in the terminal (often `http://localhost:3000`).
 - Add weather-based clothing advice
 - Add weather alerts
 - Deploy on Vercel and link from a portfolio
-- Port / align fully with React + Tailwind (see sibling `weather-app/`)
+- Port / align fully with React + Tailwind (see `basic learning/React-vers/weather-app/`)
 
 
 
